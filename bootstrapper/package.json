@@ -1,0 +1,11 @@
+{
+  "name": "bootstrapper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "jose": "^6.0.12"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}
