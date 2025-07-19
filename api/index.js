@@ -21,6 +21,7 @@ app.get("/protected", async (req, res) => {
     });
     res.json({ message: "Protected resource accessed", user: payload.sub });
   } catch (error) {
+    console.error("JWT verification error:", error);
     res.status(401).json({ error: "Invalid or expired token" });
   }
 });

@@ -15,7 +15,7 @@ async function runClient() {
   } catch (error) {
     console.error(
       "Client error:",
-      error.response ? error.response.data : error.message
+      error.response ? error.response.data : error.message,
     );
   }
 }

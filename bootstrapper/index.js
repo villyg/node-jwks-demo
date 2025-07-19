@@ -34,7 +34,7 @@ async function generateAndSaveKeys() {
   writeFileSync(`${path}jwks.json`, JSON.stringify(jwks));
 
   console.log(
-    `✅ Keys generated and saved to ${path} as public_key.pem and private_key.pem`
+    `✅ Keys generated and saved to ${path} as public_key.pem and private_key.pem`,
   );
 }
 
