@@ -1,8 +1,10 @@
 # JWT JWKS Demo
 
-This project demonstrates how to create, sign, and validate JWTs using public-private key pairs and a JWKS endpoint in a Node.js microservices setup. It includes four Dockerized components:
+This project demonstrates how to create, sign, and validate JWTs using public-private key pairs and a JWKS endpoint in a Node.js microservices setup. Full article explaining the project can be found on [my blog](http://villyg.com/node/security/oauth/2025/07/17/creating-signing-validating-JWTs.html). 
 
 ## 🧩 Components
+
+The project includes four Dockerized components:
 
 1. **Bootstrapper** - Generates RSA key pair and JWKS from the public key.
 2. **Auth Server** - Signs JWTs and exposes the JWKS (`/.well-known/jwks.json`) endpoint.
