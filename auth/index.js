@@ -3,12 +3,12 @@ import express from "express";
 import * as jose from "jose";
 import fs from "fs";
 
+
 const app = express();
 const port = 3001;
 
-const path = "../keys/";
-
-const privateKeyPem = fs.readFileSync(`${path}private_key.pem`, 'utf8');
+const pathToPrivateKeyFile = new URL('../keys/private_key.pem', import.meta.url).pathname;
+const privateKeyFile = fs.readFileSync(pathToPrivateKeyFile, 'utf8');
 
 
 app.get('/token', async (req, res) => {
@@ -29,28 +29,9 @@ app.get('/token', async (req, res) => {
 });
 
 
-app.get('/secure', async (req, res) => {
-  const authHeader = req.headers.authorization;
-
-  if (!authHeader?.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'No token provided' });
-  }
-
-  const token = authHeader.split(' ')[1];
-
-  try {
-    const payload = await verifyToken(token);
-    res.json({ message: 'Access granted', user: payload });
-  } catch (err) {
-    res.status(401).json({ error: 'Invalid or expired token' });
-  }
-});
-
-
-
 // Convert PEM to CryptoKey using jose
 async function getPrivateKey() {
-  return await jose.importPKCS8(privateKeyPem, 'RS256');
+  return await jose.importPKCS8(privateKeyFile, 'RS256');
 }
 
 
