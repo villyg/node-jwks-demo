@@ -39,7 +39,7 @@ async function getPrivateKey() {
  * Endpoint to serve the JWKS (JSON Web Key Set) for public key retrieval.
  * This is typically used for verifying JWTs (JSON Web Tokens).
  */
-app.get("/jwks.json", (req, res) => {
+app.get("/.well-known/jwks.json", (req, res) => {
 
   res.setHeader('Content-Type', 'application/json');
   res.send(jwksjson);

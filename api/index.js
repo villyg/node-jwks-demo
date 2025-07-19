@@ -3,7 +3,7 @@ import * as jose from "jose";
 
 const app = express();
 const port = 3002;
-const JWKS_URL = "http://auth:3001/jwks.json";
+const JWKS_URL = "http://auth:3001/.well-known/jwks.json";
 const JWKS = jose.createRemoteJWKSet(new URL(JWKS_URL));
 
 app.get("/protected", async (req, res) => {
