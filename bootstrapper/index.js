@@ -21,7 +21,7 @@ async function generateAndSaveKeys() {
   // 4. Optionally add desired metadata
   jwk.use = "sig";
   jwk.alg = "RS256";
-  jwk.kid = "my-key-id"; // optional, but recommended
+  jwk.kid = "client-key"; // optional, but recommended
 
   // Wrap in JWKS format
   const jwks = {
@@ -34,7 +34,7 @@ async function generateAndSaveKeys() {
   writeFileSync(`${path}jwks.json`, JSON.stringify(jwks));
 
   console.log(
-    `✅ Keys generated and saved to ${path} as public_key.pem and private_key.pem`,
+    `✅ Keys generated and saved to ${path} as public_key.pem and private_key.pem`
   );
 }
 

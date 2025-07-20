@@ -4,7 +4,11 @@ import * as jose from "jose";
 const app = express();
 const port = 3002;
 const JWKS_URL = "http://auth:3001/.well-known/jwks.json";
-const JWKS = jose.createRemoteJWKSet(new URL(JWKS_URL));
+
+console.info("Retrieving JWKS...");
+const clientJWKSet = jose.createRemoteJWKSet(new URL(JWKS_URL));
+console.info("JWKS successfully retrieved");
+
 
 app.get("/protected", async (req, res) => {
   const authHeader = req.headers.authorization;
@@ -16,7 +20,7 @@ app.get("/protected", async (req, res) => {
 
   const token = authHeader.split(" ")[1];
   try {
-    const { payload } = await jose.jwtVerify(token, JWKS, {
+    const { payload } = await jose.jwtVerify(token, clientJWKSet, {
       algorithms: ["RS256"],
     });
     res.json({ message: "Protected resource accessed", user: payload.sub });
