@@ -1,18 +1,11 @@
 services:
-  bootstrapper:
-    build: ./bootstrapper
-    volumes:
-      - ./keys:/keys
-    command: npm start
   auth:
     build: ./auth
     ports:
       - "3001:3001"
     volumes:
       - ./keys:/keys
-    depends_on:
-      - bootstrapper
-    command: npm start
+    command: npm start    
   api:
     build: ./api
     ports:
@@ -26,4 +19,6 @@ services:
     build: ./client
     depends_on:
       - api
+    volumes:
+      - ./keys:/keys      
     command: npm start
