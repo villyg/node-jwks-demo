@@ -3,7 +3,7 @@ import axios from "axios";
 async function runClient() {
   try {
     // Get token from Auth server
-    const tokenResponse = await axios.get("http://auth:3001/token");
+    const tokenResponse = await axios.post("http://auth:3001/token");
     const token = tokenResponse.data.token;
 
     // Use token to access protected API

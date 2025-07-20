@@ -10,27 +10,54 @@ const pathToPrivateKeyFile = new URL("../keys/private_key.pem", import.meta.url)
   .pathname;
 const privateKeyFile = fs.readFileSync(pathToPrivateKeyFile, "utf8");
 
-app.get("/token", async (req, res) => {
-  try {
-    const privateKey = await getPrivateKey();
+const privateKey = await jose.importPKCS8(privateKeyFile, "RS256");
 
-    const token = await new jose.SignJWT({ user: "exampleUser" }) // payload
-      .setProtectedHeader({ alg: "RS256" })
+
+const pathToPublicKeyFile = new URL("../keys/public_key.pem", import.meta.url)
+  .pathname;
+
+const publicKeyFile = fs.readFileSync(pathToPublicKeyFile, "utf8");
+
+const publicKey = await jose.importSPKI(publicKeyFile, "RS256");
+
+
+
+app.post("/token", async (req, res) => {
+  // Check to see if the request body is present
+  if (!req.body) {
+    return res.status(400).json({ error: "Request body is required" });
+  }
+
+  // Check to see if the client_assertion is present in the request body
+  if (!req.body.client_assertion) {
+    return res.status(400).json({ error: "Missing client_assertion" });
+  }
+
+  const { client_assertion } = req.body.client_assertion;
+
+  try {
+
+    const { payload } = await jose.jwtVerify(client_assertion, publicKey, {
+      issuer: 'client',
+      audience: 'auth',
+    });
+
+    const token = await new jose.SignJWT({ sub: payload.sub, user: "exampleUser" })
+      .setProtectedHeader({ alg: 'RS256', kid: 'auth-server-key' })
       .setIssuedAt()
-      .setExpirationTime("2h")
+      .setIssuer('auth')
+      .setAudience('api')
+      .setExpirationTime('2h')
       .sign(privateKey);
 
     res.json({ token: token });
   } catch (err) {
-    console.error("Error generating token:", err);
-    res.status(500).json({ error: "Token generation failed" });
+    console.error('Invalid client_assertion:', err.message);
+    res.status(401).json({ error: 'Invalid client_assertion' });
   }
 });
 
-// Convert PEM to CryptoKey using jose
-async function getPrivateKey() {
-  return await jose.importPKCS8(privateKeyFile, "RS256");
-}
+
 
 /**
  * Endpoint to serve the JWKS (JSON Web Key Set) for public key retrieval.
