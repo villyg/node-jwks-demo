@@ -1,6 +1,6 @@
 # JWT JWKS Demo
 
-This project demonstrates how to create, sign, and validate JWTs using public-private key pairs and a JWKS endpoint in a Node.js microservices setup. Full article explaining the project can be found on [my blog](http://villyg.com/node/security/oauth/2025/07/17/creating-signing-validating-JWTs.html). 
+This project demonstrates how to create, sign, and validate JWTs using public-private key pairs and a JWKS endpoint in a Node.js microservices setup. Full article explaining the project can be found on [my blog](http://villyg.com/posts/OAuth-client-credentials-with-certificate-in-NodeJS). 
 
 ## 🧩 Components
 
