@@ -1,4 +1,5 @@
-Node.js JWKS Demo
+# Node.js JWKS Demo
+
 
 This project demonstrates how to implement client credentials grant flow in Node.js using client assertion, public-private key pair and a JWKS endpoint in a microservices setup. Full article explaining the project can be found on [my blog](http://villyg.com/posts/OAuth-client-credentials-with-certificate-in-NodeJS). 
 
